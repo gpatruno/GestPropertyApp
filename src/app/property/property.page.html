@@ -36,10 +36,20 @@
         <ion-card-header>
           <ion-card-title>{{ property.Name }}</ion-card-title>
           <ion-card-subtitle>{{ property.Adress.Street }} - {{ property.Adress.City }} {{ property.Adress.ZipCode }}</ion-card-subtitle>
-          <ion-note color="dark">Loyer : {{ property.Loyer }} $</ion-note>
+         
         </ion-card-header>
         <ion-card-content>
-          <ion-note color="dark">Type : {{ property.Type }}</ion-note>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <div><ion-note color="dark">Type : {{ property.Type }}</ion-note></div>
+              </ion-col>
+              <ion-col>
+                <ion-note color="dark">Loyer : {{ property.Loyer }} $</ion-note>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          
           <ion-label class="ion-text-wrap">
             {{ property.Desc }}
           </ion-label>
@@ -48,46 +58,78 @@
     </ion-item>
   </div>
 
-  <div *ngIf="showAddProperty" class="ion-padding">
+  <div *ngIf="showAddProperty && !showAddEvent" class="ion-padding">
     <ion-item style="text-align: center;">
       <ion-label>Aucun éléments</ion-label>
     </ion-item>
   </div>
 
-  <!-- Formulaire Ajout -->
+  <!-- Formulaire Ajout Propriété -->
   <div *ngIf="showAddEvent" class="ion-padding">
     <ion-item>
       <ion-label><b>Nom:</b></ion-label>
-      <ion-input type="text" placeholder="Nom du bien"></ion-input>
+      <ion-input type="text" placeholder="Nom du bien" [(ngModel)]="newProperty.Name"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label><b>Type:</b></ion-label>
-      <ion-input type="text" placeholder="Type du bien"></ion-input>
+      <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label><b>Adresse:</b></ion-label>
-      <ion-input type="text" placeholder="1 rue de l'exemple"></ion-input>
+      <ion-input type="text" placeholder="1 rue de l'exemple" [(ngModel)]="newProperty.Adress.Street"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label><b>Ville:</b></ion-label>
-      <ion-input type="text" placeholder="Bagnols-sur-Cèze"></ion-input>
+      <ion-input type="text" placeholder="Bagnols-sur-Cèze" [(ngModel)]="newProperty.Adress.City"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label><b>Code Postale:</b></ion-label>
-      <ion-input type="number" placeholder="30300"></ion-input>
+      <ion-input type="number" placeholder="30300" [(ngModel)]="newProperty.Adress.ZipCode"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label><b>Loyer habituel:</b></ion-label>
-      <ion-input type="text" placeholder="100"></ion-input>
+      <ion-input type="text" placeholder="100" [(ngModel)]="newProperty.Loyer"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating"><b>Description:</b></ion-label>
-      <ion-textarea placeholder="Description supplémentaire..."></ion-textarea>
+      <ion-textarea placeholder="Description supplémentaire..." [(ngModel)]="newProperty.Desc"></ion-textarea>
     </ion-item>
   </div>
 
+    <!-- Formulaire Ajout -->
+    <div *ngIf="!showAddEvent && showAddRenter" class="ion-padding">
+      <ion-item>
+        <ion-label><b>Nom:</b></ion-label>
+        <ion-input type="text" placeholder="Nom du bien" [(ngModel)]="newProperty.Name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Prénom:</b></ion-label>
+        <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Mail:</b></ion-label>
+        <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Téléphone:</b></ion-label>
+        <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Adresse:</b></ion-label>
+        <ion-input type="text" placeholder="1 rue de l'exemple" [(ngModel)]="newProperty.Adress.Street"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Ville:</b></ion-label>
+        <ion-input type="text" placeholder="Bagnols-sur-Cèze" [(ngModel)]="newProperty.Adress.City"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><b>Code Postale:</b></ion-label>
+        <ion-input type="number" placeholder="30300" [(ngModel)]="newProperty.Adress.ZipCode"></ion-input>
+      </ion-item>
+    </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="showAddEvent">
-    <ion-fab-button (click)="addEvent()">
+    <ion-fab-button (click)="addPreperty()">
       <ion-icon name="checkmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>

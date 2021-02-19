@@ -14,6 +14,17 @@ export class PropertyPage implements OnInit {
   showAddProperty: boolean;
   properties = [];
   nbrProperties: number;
+  newProperty: IProperty = {
+    Name: '',
+    Desc: '',
+    Loyer: 0,
+    Type: '',
+    Adress: { 
+      City: '',
+      Street: '',
+      ZipCode: ''
+    }
+  }
 
   constructor(public popoverController: PopoverController) { }
 
@@ -44,11 +55,22 @@ export class PropertyPage implements OnInit {
     console.log('showItem' , property);
   }
 
+  addPreperty() {
+    console.log('newProperty' , this.newProperty);
+    this.properties.push(this.newProperty);
+    this.newProperty = new IProperty('', '', 0, new IAdress('', '', ''), '');
+    this.showHideForm();
+  }
+
   getProperty(): IProperty[] {
     return [
       new IProperty('Frioul', 'T2', 550, new IAdress('8 Avenue des lauriers', 'Bagnols-sur-Cèze', '30330'), 'En face de l\'école ingénieur'),
       new IProperty('Riou', 'T3', 650, new IAdress('10 Boulevard des marins', 'Annonay', '89655'),'A côté du portail vert'),
       new IProperty('Exotique', 'T1', 500, new IAdress('35 Bis impasse du pêcheur', 'Bagnols-sur-Cèze', '30330'),'')
     ]
+  }
+
+  getRenter() {
+  
   }
 }
