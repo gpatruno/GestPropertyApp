@@ -23,6 +23,7 @@ Déployer sur Android :
 
 - First, run the Capacitor open command, which opens the native Android project in Android Studio:
 > ionic cap open android
+> npx cap open ios
 
 - Live Reload
 > ionic cap run ios -l --external
