@@ -4,9 +4,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Segment in a toolbar -->
+  <!-- toolbar -->
   <ion-toolbar>
-    <ion-segment (ionChange)="segmentChanged($event)" value="business">
+    <ion-segment (ionChange)="segmentChanged()" value="business">
       <ion-segment-button value="business">
         <ion-icon name="business-outline"></ion-icon>
       </ion-segment-button>
@@ -14,20 +14,21 @@
         <ion-icon name="people-circle-outline"></ion-icon>
       </ion-segment-button>
     </ion-segment>
-    <ion-buttons slot="primary" *ngIf="!showAddEvent">
-      <ion-button (click)="showHideForm()">
+    <ion-buttons slot="primary" *ngIf="!showAddItem">
+      <ion-button (click)="showHideAdd()">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <!-- Searchbar with cancel button always shown -->
-  <div *ngIf="!showAddEvent">
+  <!-- Searchbar -->
+  <div>
     <ion-searchbar color="primary"></ion-searchbar>
   </div>
 
   <!-- Liste des Propriétés -->
-  <div *ngIf="!showAddProperty && !showAddEvent">
+  <!-- Si showAddProperty True et showAddRenter False -->
+  <div *ngIf="!propertySelected && !showAddItem">
     <ion-item style="text-align: center;" *ngIf="nbrProperties === 0">
       <ion-label>Aucun éléments</ion-label>
     </ion-item>
@@ -35,21 +36,22 @@
       <ion-card (click)='showItemProperty(property)'>
         <ion-card-header>
           <ion-card-title>{{ property.Name }}</ion-card-title>
-          <ion-card-subtitle>{{ property.Adress.Street }} - {{ property.Adress.City }} {{ property.Adress.ZipCode }}</ion-card-subtitle>
-         
+          <ion-card-subtitle>{{ property.Adress.Street }} - {{ property.Adress.City }} {{ property.Adress.ZipCode }}
+          </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
           <ion-grid>
             <ion-row>
               <ion-col>
-                <div><ion-note color="dark">Type : {{ property.Type }}</ion-note></div>
+                <div>
+                  <ion-note color="dark">Type : {{ property.Type }}</ion-note>
+                </div>
               </ion-col>
               <ion-col>
                 <ion-note color="dark">Loyer : {{ property.Loyer }} $</ion-note>
               </ion-col>
             </ion-row>
           </ion-grid>
-          
           <ion-label class="ion-text-wrap">
             {{ property.Desc }}
           </ion-label>
@@ -58,14 +60,45 @@
     </ion-item>
   </div>
 
-  <div *ngIf="showAddProperty && !showAddEvent" class="ion-padding">
-    <ion-item style="text-align: center;">
+  <div *ngIf="propertySelected && !showAddItem">
+    <ion-item style="text-align: center;" *ngIf="nbrRenter === 0">
       <ion-label>Aucun éléments</ion-label>
+    </ion-item>
+    <ion-item *ngFor="let aRenter of renter">
+      <ion-card (click)='showItemRenter(aRenter)'>
+        <ion-card-header>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-card-title>{{ aRenter.User.Name }}</ion-card-title>
+              </ion-col>
+              <ion-col>
+                <ion-card-title>{{ aRenter.User.LastName }}</ion-card-title>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-card-subtitle>{{ aRenter.Adress.Street }} - {{ aRenter.Adress.City }} {{ aRenter.Adress.ZipCode }}
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label color="dark"> {{ aRenter.User.Mail }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label color="dark">{{ aRenter.User.Phone }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label class="ion-text-wrap">
+              {{ aRenter.User.Desc }}
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
     </ion-item>
   </div>
 
   <!-- Formulaire Ajout Propriété -->
-  <div *ngIf="showAddEvent" class="ion-padding">
+  <div *ngIf="!propertySelected && showAddItem" class="ion-padding">
     <ion-item>
       <ion-label><b>Nom:</b></ion-label>
       <ion-input type="text" placeholder="Nom du bien" [(ngModel)]="newProperty.Name"></ion-input>
@@ -96,46 +129,50 @@
     </ion-item>
   </div>
 
-    <!-- Formulaire Ajout -->
-    <div *ngIf="!showAddEvent && showAddRenter" class="ion-padding">
-      <ion-item>
-        <ion-label><b>Nom:</b></ion-label>
-        <ion-input type="text" placeholder="Nom du bien" [(ngModel)]="newProperty.Name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label><b>Prénom:</b></ion-label>
-        <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label><b>Mail:</b></ion-label>
-        <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label><b>Téléphone:</b></ion-label>
-        <ion-input type="text" placeholder="Type du bien" [(ngModel)]="newProperty.Type"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label><b>Adresse:</b></ion-label>
-        <ion-input type="text" placeholder="1 rue de l'exemple" [(ngModel)]="newProperty.Adress.Street"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label><b>Ville:</b></ion-label>
-        <ion-input type="text" placeholder="Bagnols-sur-Cèze" [(ngModel)]="newProperty.Adress.City"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label><b>Code Postale:</b></ion-label>
-        <ion-input type="number" placeholder="30300" [(ngModel)]="newProperty.Adress.ZipCode"></ion-input>
-      </ion-item>
-    </div>
+  <!-- Formulaire Ajout Locataire -->
+  <div *ngIf="propertySelected && showAddItem" class="ion-padding">
+    <ion-item>
+      <ion-label><b>Nom:</b></ion-label>
+      <ion-input type="text" placeholder="Nom Locataire" [(ngModel)]="newRenter.User.LastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><b>Prénom:</b></ion-label>
+      <ion-input type="text" placeholder="Prénom Locataire" [(ngModel)]="newRenter.User.Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><b>Mail:</b></ion-label>
+      <ion-input type="text" placeholder="Mail Locataire" [(ngModel)]="newRenter.User.Mail"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><b>Téléphone:</b></ion-label>
+      <ion-input type="text" placeholder="Téléphone Locataire" [(ngModel)]="newRenter.User.Phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><b>Adresse:</b></ion-label>
+      <ion-input type="text" placeholder="1 rue de l'exemple" [(ngModel)]="newRenter.Adress.Street"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><b>Ville:</b></ion-label>
+      <ion-input type="text" placeholder="Bagnols-sur-Cèze" [(ngModel)]="newRenter.Adress.City"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><b>Code Postale:</b></ion-label>
+      <ion-input type="number" placeholder="30300" [(ngModel)]="newRenter.Adress.ZipCode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"><b>Description:</b></ion-label>
+      <ion-textarea placeholder="Description supplémentaire..." [(ngModel)]="newRenter.User.Desc"></ion-textarea>
+    </ion-item>
+  </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="showAddEvent">
-    <ion-fab-button (click)="addPreperty()">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="showAddItem">
+    <ion-fab-button (click)="addItem()">
       <ion-icon name="checkmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="showAddEvent">
-    <ion-fab-button (click)="showHideForm()" color="warning">
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="showAddItem">
+    <ion-fab-button (click)="showHideAdd()" color="warning">
       <ion-icon name="close"></ion-icon>
     </ion-fab-button>
   </ion-fab>
