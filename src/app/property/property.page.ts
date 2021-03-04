@@ -5,6 +5,7 @@ import { IProperty } from '../models/IProperty.model';
 import { IAdress } from '../models/IAdress.model';
 import { IUser } from '../models/IUser.model';
 import { Renter } from '../models/Renter.model';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
   selector: 'app-property',
@@ -23,7 +24,7 @@ export class PropertyPage implements OnInit {
       LastName: '',
       Name: '',
       Mail: '',
-      Phone: '',
+      Phone: ''
     },
     Adress: {
       City: '',
@@ -46,7 +47,7 @@ export class PropertyPage implements OnInit {
     }
   }
 
-  constructor(public popoverController: PopoverController) { }
+  constructor(public popoverController: PopoverController, public afDB: AngularFireDatabase) { }
 
   ngOnInit() {
     this.renter = this.getRenter();

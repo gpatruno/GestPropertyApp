@@ -10,35 +10,40 @@
         <ion-card-title>
           <ion-icon name="person-circle-outline"></ion-icon> Utilisateur
         </ion-card-title>
-        <ion-card-subtitle>Aucun utilisateur connecté</ion-card-subtitle>
+        <ion-card-subtitle>{{ userName }}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <div id="noUser" *ngIf="!isUserConnected">
-          <ion-button expand="block" fill="solid" (click)="showHideUserForm()">Se connecter</ion-button>
-          <ion-button expand="block" fill="solid" color="medium">S'Inscrire</ion-button>
+          <ion-item>
+            <ion-label>Mail</ion-label>
+            <ion-input inputmode="email" placeholder="mail.ex@mail.com" [(ngModel)]="login.mail"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Mot de passe</ion-label>
+            <ion-input type="password" placeholder="password" [(ngModel)]="login.Password"></ion-input>
+          </ion-item>
+          <ion-button expand="block" fill="solid" (click)="connect()">Se connecter</ion-button>
+          <ion-button expand="block" fill="solid" color="medium" (click)="openModal()"> S'Inscrire</ion-button>
         </div>
         <div id="userInfo" *ngIf="isUserConnected">
           <ion-item>
             <ion-label>Nom</ion-label>
-            <ion-input readonly value="Franck"></ion-input>
+            <ion-input readonly [(ngModel)]="userAccount.User.LastName"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Prénom</ion-label>
-            <ion-input readonly value="GALLAGER"></ion-input>
+            <ion-input readonly [(ngModel)]="userAccount.User.Name"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Mail</ion-label>
-            <ion-input readonly inputmode="email" value="franck.gallager@mail.com"></ion-input>
+            <ion-input readonly inputmode="email" [(ngModel)]="userAccount.User.Mail"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Téléphone</ion-label>
-            <ion-input readonly inputmode="tel" value="06 12 12 12 12 12"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Mot de passe</ion-label>
-            <ion-input type="password" readonly value="monmotdepasse"></ion-input>
+            <ion-input readonly inputmode="tel" [(ngModel)]="userAccount.User.Phone"></ion-input>
           </ion-item>
           <ion-button expand="block" fill="solid">Modifier</ion-button>
+          <ion-button expand="block" fill="solid" (click)="disconnect()" color="danger">Se Déconnecter</ion-button>
         </div>
       </ion-card-content>
     </ion-card>
@@ -67,4 +72,5 @@
       </ion-card-content>
     </ion-card>
   </div>
+  <ion-button expand="block" fill="solid" (click)="getAllAccounts()" color="medium">Test</ion-button>
 </ion-content>

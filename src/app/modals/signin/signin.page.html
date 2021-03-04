@@ -1,0 +1,38 @@
+<!-- my-modal.page.html -->
+<ion-header [translucent]="true" collapse="condense">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card-header>
+    <ion-card-title>
+      {{modalTitle}}
+    </ion-card-title>
+  </ion-card-header>
+  <div>
+    <ion-item>
+      <ion-label>Nom :</ion-label>
+      <ion-input [(ngModel)]="modelParam.User.LastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Prénom :</ion-label>
+      <ion-input  [(ngModel)]="modelParam.User.Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Mail :</ion-label>
+      <ion-input  inputmode="email" [(ngModel)]="modelParam.User.Mail"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Téléphone :</ion-label>
+      <ion-input  inputmode="tel" [(ngModel)]="modelParam.User.Phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Mot de passe :</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <ion-button expand="block" fill="solid" (click)="closeModal()">S'inscrire</ion-button>
+    <ion-button (click)="closeModal()">Retour</ion-button>
+  </div>
+
+</ion-content>
